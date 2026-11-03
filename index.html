@@ -335,5 +335,29 @@
       updateDisplay();
       setInterval(updateDisplay, 1000);
     </script>
+    <script>
+  function getMarqueeText() {
+    const d = new Date();
+    const day = d.getDate();
+    const month = d.getMonth() + 1;
+
+    if ((month === 12 && day === 31) || (month === 1 && day === 1)) {
+      return "🎉 С НОВЫМ ГОДОМ! Пусть год будет ярким и успешным! 🎉";
+    }
+    if (month === 2 && day === 23) {
+      return "🎖️ С 23 ФЕВРАЛЯ! С Днём защитника Отечества! 🎖️";
+    }
+    if (month === 3 && day === 8) {
+      return "💐 С 8 МАРТА! Счастья, весны и улыбок! 💐";
+    }
+    return null; // обычный день — ничего не меняем
+  }
+
+  const text = getMarqueeText();
+  if (text) {
+    const m = document.querySelector('.marquee-text') || document.querySelector('.marquee-container');
+    if (m) m.textContent = text;
+  }
+</script>
   </body>
 </html>
