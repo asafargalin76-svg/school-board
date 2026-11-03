@@ -105,8 +105,8 @@
 <div id="weather">Загрузка погоды…</div>
 
 <script>
-  const proxy = 'https://api.allorigins.win/raw?url=';
-  const url = encodeURIComponent('https://api.open-meteo.com/v1/forecast?latitude=54.31&longitude=59.44&current=temperature_2m,weather_code&timezone=Asia%2FYekaterinburg');
+  const proxy = 'https://cors-proxy.it/';
+  const url = 'https://api.open-meteo.com/v1/forecast?latitude=54.31&longitude=59.44&current=temperature_2m,weather_code&timezone=Asia%2FYekaterinburg';
 
   fetch(proxy + url)
     .then(r => r.json())
