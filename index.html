@@ -63,7 +63,16 @@
       .friday-after-lessons { display: none; font-size: 4rem; color: #ffaa00;
         text-shadow: 0 0 20px rgba(255, 170, 0, 0.5); line-height: 1.3;
         max-width: 90%; position: relative; z-index: 2; }
-
+#weather {
+  position: absolute;
+  bottom: 90px;          /* над бегущей строкой */
+  left: 20px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffd66d;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  z-index: 3;
+}
       .marquee-container { position: absolute; bottom: 20px; left: 0;
         width: 100%; height: 60px; overflow: hidden; z-index: 3; }
       .marquee-track { display: inline-block; white-space: nowrap;
@@ -93,7 +102,30 @@
       <div class="saturday-message" id="saturdayMessage">Лови субботнее настроение — оно самое лучшее!</div>
       <div class="friday-after-lessons" id="fridayAfterLessons">После уроков в пятницу даже воздух пахнет выходными!</div>
     </div>
+<div id="weather">Загрузка погоды…</div>
 
+<script>
+  fetch('https://api.open-meteo.com/v1/forecast?latitude=54.31&longitude=59.44&current=temperature_2m,weather_code&timezone=Asia%2FYekaterinburg')
+    .then(r => r.json())
+    .then(data => {
+      const t = Math.round(data.current.temperature_2m);
+      const codes = {
+        0: '☀️ Ясно', 1: '🌤 Преимущественно ясно', 2: '⛅ Переменная облачность',
+        3: '☁️ Пасмурно', 45: '🌫 Туман', 48: '🌫 Изморозь',
+        51: '🌦 Морось', 53: '🌦 Морось', 55: '🌦 Сильная морось',
+        61: '🌧 Дождь', 63: '🌧 Дождь', 65: '🌧 Сильный дождь',
+        71: '🌨 Снег', 73: '🌨 Снег', 75: '❄️ Сильный снег',
+        77: '🌨 Снежные зёрна', 80: '🌦 Ливень', 81: '🌦 Ливень', 82: '⛈ Сильный ливень',
+        85: '🌨 Снегопад', 86: '❄️ Сильный снегопад',
+        95: '⛈ Гроза', 96: '⛈ Гроза с градом', 99: '⛈ Сильная гроза с градом'
+      };
+      const desc = codes[data.current.weather_code] || 'Погода';
+      document.getElementById('weather').textContent = desc + ', ' + t + '°C';
+    })
+    .catch(() => {
+      document.getElementById('weather').textContent = 'Погода недоступна';
+    });
+</script>
     <div class="marquee-container">
       <div class="marquee-track">
         <span class="marquee-text">🎉 Внимание! Сегодня в актовом зале — праздничный концерт! Не пропустите! 🎉</span>
